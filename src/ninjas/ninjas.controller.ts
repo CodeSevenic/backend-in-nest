@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { CreateNinjaDto } from './dto/create-ninja.dto';
 import { UpdateNinjaDto } from './dto/update-ninja.dto';
 import { NinjasService } from './ninjas.service';
@@ -15,32 +24,28 @@ export class NinjasController {
   // Get a single ninja
   @Get(':id')
   getOneNinja(@Param('id') id: string) {
-    return this.ninjasService.getOneNinja(+id);
+    try {
+      return this.ninjasService.getOneNinja(+id);
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
   }
 
   // Create a ninja
   @Post()
   createNinja(@Body() createNinjaDto: CreateNinjaDto) {
-    return {
-      name: createNinjaDto.name,
-      weapon: createNinjaDto.weapon,
-    };
+    return this.ninjasService.createNinja(createNinjaDto);
   }
 
   // Update a ninja
   @Put(':id')
   updateNinja(@Param('id') id: string, @Body() updateNinjaDto: UpdateNinjaDto) {
-    return {
-      id,
-      name: updateNinjaDto.name,
-      age: updateNinjaDto.age,
-      belt: updateNinjaDto.belt,
-    };
+    return this.ninjasService.updateNinja(+id, updateNinjaDto);
   }
 
   // Delete a ninja
   @Post(':id/delete')
   deleteNinja(@Param('id') id: string) {
-    return 'Delete a ninja';
+    return this.ninjasService.deleteNinja(+id);
   }
 }

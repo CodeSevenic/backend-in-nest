@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateNinjaDto } from './dto/create-ninja.dto';
 
 @Injectable()
@@ -41,7 +41,7 @@ export class NinjasService {
   getOneNinja(id: number) {
     const ninja = this.ninjas.find((ninja) => ninja.id === id);
     if (!ninja) {
-      return 'Ninja not found';
+      throw new Error('Ninja not found');
     }
     return ninja;
   }
@@ -53,6 +53,29 @@ export class NinjasService {
     };
     this.ninjas.push(newNinja);
 
-    return ninja;
+    return newNinja;
+  }
+
+  updateNinja(id: number, ninja: CreateNinjaDto) {
+    const ninjaIndex = this.ninjas.findIndex((ninja) => ninja.id === id);
+    if (ninjaIndex === -1) {
+      return 'Ninja not found';
+    }
+    this.ninjas[ninjaIndex] = {
+      ...this.ninjas[ninjaIndex],
+      ...ninja,
+    };
+
+    return this.ninjas[ninjaIndex];
+  }
+
+  deleteNinja(id: number) {
+    const ninjaIndex = this.ninjas.findIndex((ninja) => ninja.id === id);
+    if (ninjaIndex === -1) {
+      return 'Ninja not found';
+    }
+    this.ninjas.splice(ninjaIndex, 1);
+
+    return 'Ninja deleted';
   }
 }
