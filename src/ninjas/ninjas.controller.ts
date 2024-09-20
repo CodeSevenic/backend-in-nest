@@ -22,13 +22,13 @@ export class NinjasController {
 
   // Update a ninja
   @Post(':id')
-  updateNinja() {
+  updateNinja(@Param('id') id: string) {
     return 'Update a ninja';
   }
 
   // Delete a ninja
   @Post(':id/delete')
-  deleteNinja() {
+  deleteNinja(@Param('id') id: string) {
     return 'Delete a ninja';
   }
 }
