@@ -5,17 +5,17 @@ import { NinjasService } from './ninjas.service';
 
 @Controller('ninjas')
 export class NinjasController {
+  constructor(private readonly ninjasService: NinjasService) {}
   // Get all ninjas
   @Get()
-  getNinjas(@Query('type') weapon: 'stars' | 'nunchucks') {
-    const service = new NinjasService();
-    return service.getNinjas(weapon);
+  getNinjas(@Query('weapon') weapon: 'stars' | 'nunchucks') {
+    return this.ninjasService.getNinjas(weapon);
   }
 
   // Get a single ninja
   @Get(':id')
   getOneNinja(@Param('id') id: string) {
-    return `A ninja ${id}`;
+    return this.ninjasService.getOneNinja(+id);
   }
 
   // Create a ninja
@@ -23,8 +23,7 @@ export class NinjasController {
   createNinja(@Body() createNinjaDto: CreateNinjaDto) {
     return {
       name: createNinjaDto.name,
-      age: createNinjaDto.age,
-      belt: createNinjaDto.belt,
+      weapon: createNinjaDto.weapon,
     };
   }
 

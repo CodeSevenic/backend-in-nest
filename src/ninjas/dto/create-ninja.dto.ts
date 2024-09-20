@@ -1,5 +1,5 @@
 export class CreateNinjaDto {
+  id: number;
   name: string;
-  age: number;
-  belt: string;
+  weapon: string;
 }
