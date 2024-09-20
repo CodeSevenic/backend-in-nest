@@ -27,8 +27,8 @@ export class NinjasController {
 
   // Update a ninja
   @Put(':id')
-  updateNinja(@Param('id') id: string) {
-    return 'Update a ninja';
+  updateNinja(@Param('id') id: string, @Body() updateNinjaDto: CreateNinjaDto) {
+    return 'Update a ninja ';
   }
 
   // Delete a ninja
