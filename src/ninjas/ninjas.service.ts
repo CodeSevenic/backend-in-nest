@@ -39,7 +39,7 @@ export class NinjasService {
   }
 
   getOneNinja(id: number) {
-    const ninja = this.ninjas.find((ninja) => ninja.id === id);
+    // const ninja = this.ninjas.find((ninja) => ninja.id === id);
     if (!ninja) {
       throw new Error('Ninja not found');
     }
